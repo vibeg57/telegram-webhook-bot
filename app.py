@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Главное меню и ответы
 menu = {
     "История": "Лазурное — уютный поселок на берегу Черного моря...",
     "Домоводство": "Советы по уюту и экономии в доме...",
@@ -20,18 +19,17 @@ def webhook():
         reply_text = menu[user_message]
     else:
         reply_text = (
-            "Привет! Выберите раздел меню:\n"
-            "- История\n"
-            "- Домоводство\n"
-            '- IT для "чайников"\n'
-            "- FAQ\n"
-            "- О боте"
+            "Привет! Выберите раздел меню:"
         )
 
-    # Формируем ответ с текстом и кнопками (если платформа поддерживает)
+    # Формируем кнопки в формате inline_keyboard
+    buttons = [[{"text": key, "callback_data": key}] for key in menu.keys()]
+
     response = {
-        "reply": reply_text,
-        "buttons": list(menu.keys())  # Кнопки с названиями разделов
+        "text": reply_text,
+        "reply_markup": {
+            "inline_keyboard": buttons
+        }
     }
     return jsonify(response)
 
