@@ -1,1 +1,5 @@
-Flask
+fastapi
+uvicorn
+requests
+Flask==2.3.2
+gunicorn
